@@ -8,45 +8,19 @@ CC BY <a href=https://ichigojam.net/>IchigoJam</a>, <a href=https://github.com/i
 
 <script type="module">
 import { CSV } from "https://js.sabae.cc/CSV.js";
-import { transposeTable, setAutoTransposeTable } from "./transposeTable.js"; //"https://code4fukui.github.io/tableutil/table-border.css";
+import { transposeTable, setAutoTransposeTable } from "https://code4fukui.github.io/tableutil/transposeTable.js";
+import { csv2table } from "https://code4fukui.github.io/tableutil/csv2table.js";
 
-//const url = "https://ichigojam.github.io/slide/computer-speed/computer-speed.csv";
-const url = "./computer-speed.csv";
+const url = "https://ichigojam.github.io/opendata/computer-speed/computer-speed.csv";
+//const url = "./computer-speed.csv";
 const data = await CSV.fetchJSON(url);
 console.log(data);
-
-const csv2table = (csv, names) => {
-  const cr = (tag, p) => {
-    const c = document.createElement(tag);
-    if (p) {
-      p.appendChild(c);
-    }
-    return c;
-  };
-  const tbl = cr("table");
-  for (const d of data) {
-    const tr = cr("tr", tbl);
-    for (const name of names) {
-      const td = cr("td", tr);
-      if (name == "image") {
-        const img = cr("img", td);
-        img.src = d[name];
-        //img.src = d[name].substring("https://ichigojam.github.io/slide/computer-speed/".length);
-      } else {
-        td.textContent = d[name];
-      }
-      td.className = name;
-    }
-  }
-  return tbl;
-};
 
 const tbl = csv2table(data, ["image", "name", "ops", "caption", "price"]);
 main.appendChild(tbl);
 
 transposeTable(tbl);
 setAutoTransposeTable(tbl);
-
 </script>
 
 <style>
